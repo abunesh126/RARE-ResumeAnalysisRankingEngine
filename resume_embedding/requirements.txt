@@ -1,0 +1,14 @@
+# Core dependencies
+fastembed>=0.4.0
+numpy>=1.26.0
+orjson>=3.10.0
+pydantic>=2.7.0
+pyyaml>=6.0
+tqdm>=4.66.0
+
+# GPU support (optional)
+# onnxruntime-gpu>=1.17.0
+
+# Development dependencies
+pytest>=8.0.0
+ruff>=0.5.0

@@ -1,0 +1,16 @@
+# Resume Embedding Engine — Default Configuration
+# Override per-run via CLI flags or a custom YAML (--config path/to/custom.yaml).
+
+# ── Embedding Model ──────────────────────────────────────────────
+model_name: "BAAI/bge-small-en-v1.5"
+vector_dimension: 384
+
+# ── Inference ────────────────────────────────────────────────────
+default_batch_size: 256
+device: "auto"               # auto | cuda | cpu
+
+# ── Checkpointing ───────────────────────────────────────────────
+checkpoint_interval: 1000     # save checkpoint every N records
+
+# ── Validation ───────────────────────────────────────────────────
+norm_tolerance: 1.0e-5

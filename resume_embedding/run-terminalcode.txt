@@ -1,0 +1,98 @@
+============================================================
+  RESUME EMBEDDING ENGINE — Terminal Commands
+============================================================
+
+------------------------------------------------------------
+  SETUP
+------------------------------------------------------------
+
+cd D:\projects\pro0work\resume_embedding
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
+pip install -e .
+pip install onnxruntime-gpu>=1.17.0          # optional, for GPU
+
+
+------------------------------------------------------------
+  EMBEDDING PIPELINE
+------------------------------------------------------------
+
+# Sample data (10 bundled records)
+python scripts/run_sample.py
+
+# JSON array input (sample_candidates.json — 50 records)
+python -m resume_embedding.main --input "D:\projects\pro0work\dataset\[PUB] India_runs_data_and_ai_challenge\India_runs_data_and_ai_challenge\sample_candidates.json"
+
+# Full JSONL dataset (100k records)
+python -m resume_embedding.main --input "D:\projects\pro0work\dataset\[PUB] India_runs_data_and_ai_challenge\India_runs_data_and_ai_challenge\candidates.jsonl"
+
+# Force CPU
+python -m resume_embedding.main --input data.jsonl --device cpu
+
+# Force GPU
+python -m resume_embedding.main --input data.jsonl --device cuda
+
+# Custom output directory
+python -m resume_embedding.main --input data.jsonl --output outputs/my_run
+
+# Custom config
+python -m resume_embedding.main --input data.jsonl --config configs/model.yaml
+
+# Resume interrupted run
+python -m resume_embedding.main --resume --output outputs/run_20260617_091508/
+
+# Custom batch size
+python -m resume_embedding.main --input data.jsonl --batch-size 512
+
+
+------------------------------------------------------------
+  VIEWER (inspect .npy output)
+------------------------------------------------------------
+
+# Summary + top similar pairs
+python viewer/view_embeddings.py outputs/sample_50
+
+# Show one candidate's vector details
+python viewer/view_embeddings.py outputs/sample_50 --show CAND_0000001
+
+# Find 5 most similar candidates
+python viewer/view_embeddings.py outputs/sample_50 --similar CAND_0000001 --top 5
+
+# Top 10 most similar pairs in the dataset
+python viewer/view_embeddings.py outputs/sample_50 --pairs --top 10
+
+# Compare two specific candidates
+python viewer/view_embeddings.py outputs/sample_50 --compare CAND_0000025 CAND_0000044
+
+
+------------------------------------------------------------
+  TESTS
+------------------------------------------------------------
+
+# Run all 95 tests
+pytest tests/ -v
+
+# Run specific test file
+pytest tests/test_candidate_parser.py -v
+pytest tests/test_text_builder.py -v
+pytest tests/test_pipeline_integration.py -v
+
+# Run with short traceback
+pytest tests/ -v --tb=short
+
+
+------------------------------------------------------------
+  BENCHMARKING
+------------------------------------------------------------
+
+python scripts/benchmark.py --num-candidates 1000 --device cpu
+python scripts/benchmark.py --num-candidates 1000 --device cuda
+
+
+------------------------------------------------------------
+  LINTING
+------------------------------------------------------------
+
+ruff check src/ tests/
+ruff format src/ tests/

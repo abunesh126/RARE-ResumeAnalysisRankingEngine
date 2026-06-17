@@ -1,0 +1,13 @@
+# Model-specific configuration overrides.
+#
+# Use this file when swapping to a different embedding model.
+# Values here override the corresponding keys in default.yaml.
+#
+# Example — switch to a larger model:
+#
+#   model_name: "BAAI/bge-base-en-v1.5"
+#   vector_dimension: 768
+#   default_batch_size: 128
+#
+# Load with:
+#   python -m resume_embedding.main --config configs/model.yaml --input ...

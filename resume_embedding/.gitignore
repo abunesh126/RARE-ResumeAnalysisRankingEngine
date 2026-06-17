@@ -1,0 +1,55 @@
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Outputs (generated embeddings — each run creates a timestamped dir)
+outputs/
+
+# User datasets (not committed — use datasets/sample/ for testing)
+datasets/input/*.jsonl
+
+# Models cache (downloaded by FastEmbed on first run)
+models/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-*
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Logs
+*.log
+
+# Pytest
+.pytest_cache/
+htmlcov/
+.coverage
+coverage.xml
+
+# Ruff
+.ruff_cache/
+
+# Mypy
+.mypy_cache/
+
+# Jupyter (if used for exploration)
+.ipynb_checkpoints/
+
+# Draft files
+readmebase.md

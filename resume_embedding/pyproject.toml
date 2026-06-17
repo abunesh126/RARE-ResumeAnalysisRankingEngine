@@ -1,0 +1,79 @@
+[build-system]
+requires = ["setuptools>=75.0.0", "wheel>=0.44.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "resume-embedding"
+version = "2.0.0"
+description = "Reusable GPU-accelerated embedding engine for candidate profiles using BAAI/bge-small-en-v1.5 via FastEmbed."
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.11"
+authors = [
+    {name = "Resume Embedding Team"}
+]
+keywords = ["embeddings", "nlp", "fastembed", "candidate-profiles", "vector-search"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+[project.urls]
+Homepage = "https://github.com/<your-username>/resume-embedding-engine"
+Repository = "https://github.com/<your-username>/resume-embedding-engine"
+Issues = "https://github.com/<your-username>/resume-embedding-engine/issues"
+Changelog = "https://github.com/<your-username>/resume-embedding-engine/blob/main/CHANGELOG.md"
+
+dependencies = [
+    "fastembed>=0.4.0",
+    "numpy>=1.26.0",
+    "orjson>=3.10.0",
+    "pydantic>=2.7.0",
+    "pyyaml>=6.0",
+    "tqdm>=4.66.0",
+]
+
+[project.optional-dependencies]
+gpu = [
+    "onnxruntime-gpu>=1.17.0",
+]
+dev = [
+    "pytest>=8.0.0",
+    "ruff>=0.5.0",
+]
+
+[project.scripts]
+resume-embed = "resume_embedding.main:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "N",    # pep8-naming
+    "UP",   # pyupgrade
+    "B",    # flake8-bugbear
+    "SIM",  # flake8-simplify
+    "TCH",  # flake8-type-checking
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["resume_embedding"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-v --tb=short"
