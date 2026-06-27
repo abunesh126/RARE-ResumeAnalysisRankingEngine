@@ -1,127 +1,288 @@
-```gitignore
 # ==========================================
-# Python AI Project - .gitignore
+# RARE - Resume Analysis Ranking Engine
+# Comprehensive .gitignore for Python AI Project
 # ==========================================
 
-# ------------------------------
+# ==========================================
+# PYTHON ENVIRONMENT & DEPENDENCIES
+# ==========================================
+
 # Virtual Environments
-# ------------------------------
 .venv/
 venv/
 env/
 ENV/
+.env.local
+.env.*.local
 
-# ------------------------------
 # Environment Variables
-# ------------------------------
 .env
 .env.*
+!.env.example
 
-# ------------------------------
 # Python Cache
-# ------------------------------
 __pycache__/
 *.py[cod]
 *$py.class
+*.so
+.Python
 
-# ------------------------------
 # Build & Distribution
-# ------------------------------
 build/
+develop-eggs/
 dist/
-*.egg
-*.egg-info/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
 pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
 
-# ------------------------------
-# Testing & Coverage
-# ------------------------------
+# ==========================================
+# TESTING & CODE QUALITY
+# ==========================================
+
+# Pytest
 .pytest_cache/
+.tox/
+nosetests.xml
+
+# Coverage
 .coverage
+.coverage.*
 coverage.xml
 htmlcov/
+*.cover
+.hypothesis/
 
-# ------------------------------
-# Type Checking / Linting
-# ------------------------------
+# Type Checking
 .mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Linting
 .ruff_cache/
+.pylint.d/
+pylint_report.txt
 
-# ------------------------------
-# Jupyter Notebooks
-# ------------------------------
+# ==========================================
+# JUPYTER & NOTEBOOKS
+# ==========================================
+
 .ipynb_checkpoints/
+.jupyter/
+*.ipynb
+.jupyterlab/
 
-# ------------------------------
-# Generated Outputs
-# ------------------------------
+# ==========================================
+# DATA & MODELS
+# ==========================================
+
+# Generated Outputs (timestamped directories)
 outputs/
 data/output/
-
-# ------------------------------
-# Input Datasets
-# (Keep only sample data under data/sample/)
-# ------------------------------
-datasets/input/
-data/input/
-
-# ------------------------------
-# Downloaded Models
-# ------------------------------
-models/
-
-# ------------------------------
-# Logs
-# ------------------------------
-*.log
-
-# ------------------------------
-# Databases
-# ------------------------------
-*.sqlite3
-
-# ------------------------------
-# Temporary Files
-# ------------------------------
+results/
 tmp/
 temp/
+cache/
 
-# ------------------------------
-# IDE / Editors
-# ------------------------------
+# Input Datasets (except samples)
+datasets/input/
+datasets/raw/
+data/input/
+data/raw/
+*.jsonl
+!data/sample/
+
+# Downloaded Models & Embeddings
+models/
+model_cache/
+embeddings/
+*.bin
+*.pt
+*.h5
+*.onnx
+
+# ==========================================
+# LOGS & DATABASES
+# ==========================================
+
+# Application Logs
+*.log
+logs/
+log/
+
+# Databases
+*.sqlite3
+*.db
+*.sqlite
+*.sqlite-journal
+
+# ==========================================
+# IDE & EDITOR CONFIGURATION
+# ==========================================
+
+# VSCode
 .vscode/
+*.code-workspace
+.history/
+
+# PyCharm / IntelliJ
 .idea/
+*.iml
+*.iws
+*.ipr
+.project
+.pydevproject
+.settings/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim/Neovim
 *.swp
 *.swo
-*.sublime-*
+*~
+.netrwhist
 
-# ------------------------------
+# Emacs
+*~
+.\#*
+\#*\#
+
+# Other Editors
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# ==========================================
+# VERSION & CONFIGURATION
+# ==========================================
+
 # Python Version
-# ------------------------------
 .python-version
+.pyenv
 
-# ------------------------------
 # Local Configuration
-# ------------------------------
 *.local
+config.local.py
+settings.local.py
 
-# ------------------------------
-# Secrets & Certificates
-# ------------------------------
+# ==========================================
+# SECRETS & SECURITY
+# ==========================================
+
+# Certificates & Keys
 *.pem
 *.key
 *.crt
+*.p12
+*.pfx
+*.jks
+*.pks
 
-# ------------------------------
-# Operating System Files
-# ------------------------------
+# API Keys & Secrets
+secrets.json
+secrets.yaml
+secrets.yml
+private_key
+aws_credentials
+
+# ==========================================
+# OPERATING SYSTEM FILES
+# ==========================================
+
+# macOS
 .DS_Store
-Thumbs.db
-Desktop.ini
+.AppleDouble
+.LSOverride
 ._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+.TemporaryItems
 
-# ------------------------------
-# Documentation Drafts
-# ------------------------------
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Linux
+.directory
+
+# ==========================================
+# CI/CD & DEPLOYMENT
+# ==========================================
+
+# GitHub Actions
+.github/workflows/*.local
+
+# Docker
+docker-compose.override.yml
+
+# Kubernetes
+k8s/*.local.yaml
+
+# ==========================================
+# DOCUMENTATION & DRAFTS
+# ==========================================
+
+# Draft Files
 readmebase.md
-```
+DRAFT_*.md
+TODO.md
+*.draft
+*.bak
+
+# ==========================================
+# MISCELLANEOUS
+# ==========================================
+
+# OS Temp Files
+.tmp/
+.cache/
+.codebeat/
+
+# Byte-compiled / optimized / DLL files
+*.pyo
+*.pyd
+
+# Type checking
+.pyre/
+
+# IPython
+profile_default/
+ipython_config.py
+
+# mypy stub files
+*.pyi
+
+# Rope project settings
+.ropeproject
+
+# ==========================================
+# PROJECT-SPECIFIC
+# ==========================================
+
+# Resume Analysis Specific
+*.pdf
+!sample_resumes/
+!data/sample/resumes/
+
+# Exclude large files
+*.zip
+*.tar.gz
+*.rar
