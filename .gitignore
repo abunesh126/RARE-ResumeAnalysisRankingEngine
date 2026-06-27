@@ -1,19 +1,127 @@
-# Virtual Environment
+```gitignore
+# ==========================================
+# Python AI Project - .gitignore
+# ==========================================
+
+# ------------------------------
+# Virtual Environments
+# ------------------------------
 .venv/
 venv/
+env/
 ENV/
 
-# Python Cache
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
+# ------------------------------
+# Environment Variables
+# ------------------------------
+.env
+.env.*
 
-# Testing Cache
+# ------------------------------
+# Python Cache
+# ------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+
+# ------------------------------
+# Build & Distribution
+# ------------------------------
+build/
+dist/
+*.egg
+*.egg-info/
+pip-wheel-metadata/
+
+# ------------------------------
+# Testing & Coverage
+# ------------------------------
 .pytest_cache/
 .coverage
+coverage.xml
 htmlcov/
 
-# OS Specific
+# ------------------------------
+# Type Checking / Linting
+# ------------------------------
+.mypy_cache/
+.ruff_cache/
+
+# ------------------------------
+# Jupyter Notebooks
+# ------------------------------
+.ipynb_checkpoints/
+
+# ------------------------------
+# Generated Outputs
+# ------------------------------
+outputs/
+data/output/
+
+# ------------------------------
+# Input Datasets
+# (Keep only sample data under data/sample/)
+# ------------------------------
+datasets/input/
+data/input/
+
+# ------------------------------
+# Downloaded Models
+# ------------------------------
+models/
+
+# ------------------------------
+# Logs
+# ------------------------------
+*.log
+
+# ------------------------------
+# Databases
+# ------------------------------
+*.sqlite3
+
+# ------------------------------
+# Temporary Files
+# ------------------------------
+tmp/
+temp/
+
+# ------------------------------
+# IDE / Editors
+# ------------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-*
+
+# ------------------------------
+# Python Version
+# ------------------------------
+.python-version
+
+# ------------------------------
+# Local Configuration
+# ------------------------------
+*.local
+
+# ------------------------------
+# Secrets & Certificates
+# ------------------------------
+*.pem
+*.key
+*.crt
+
+# ------------------------------
+# Operating System Files
+# ------------------------------
 .DS_Store
 Thumbs.db
+Desktop.ini
+._*
+
+# ------------------------------
+# Documentation Drafts
+# ------------------------------
+readmebase.md
+```
