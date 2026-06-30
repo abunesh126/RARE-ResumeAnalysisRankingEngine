@@ -3,7 +3,7 @@
 import time
 import statistics
 from pipeline_integration import run_e2e_pipeline, transform_qdrant_results, explain_ranking
-from storage.retrieval import ResumeRetriever
+from services.storage.retrieval import ResumeRetriever
 
 
 def benchmark_pipeline(

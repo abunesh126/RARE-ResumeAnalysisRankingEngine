@@ -7,7 +7,7 @@ import time
 from functools import lru_cache
 from typing import Any, List, Optional
 
-from ranking import LayerwiseCandidateReranker
+from services.ranking import LayerwiseCandidateReranker
 
 
 class _MockRetriever:
@@ -161,7 +161,7 @@ class OptimizedPipeline:
             self.retriever = _MockRetriever()
         else:
             try:
-                from storage.retrieval import ResumeRetriever
+                from services.storage.retrieval import ResumeRetriever
                 self.retriever = ResumeRetriever(mock_mode=False)
             except ImportError:
                 print("[WARNING] Qdrant storage unavailable; falling back to mock retriever.")
@@ -233,7 +233,7 @@ class OptimizedPipeline:
         Runs a sweep and returns the configuration with lowest avg latency.
         """
         if candidate_generator is None:
-            from ranking.schemas import CandidateInput
+            from services.ranking.schemas import CandidateInput
 
             def _gen():
                 import random

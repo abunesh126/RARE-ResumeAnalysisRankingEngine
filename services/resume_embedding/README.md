@@ -200,7 +200,7 @@ The `pytesseract` Python package is just a wrapper — Tesseract itself must be 
 
 ```bash
 git clone https://github.com/<your-username>/RARE-ResumeAnalysisRankingEngine.git
-cd RARE-ResumeAnalysisRankingEngine/resume_embedding
+cd RARE-ResumeAnalysisRankingEngine/services/resume_embedding
 ```
 
 ### 2. Create and Activate a Virtual Environment

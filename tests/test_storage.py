@@ -3,17 +3,17 @@ from unittest.mock import MagicMock, patch
 
 from qdrant_client.http.exceptions import UnexpectedResponse
 
-from storage.config import KEYWORD_WEIGHT, VECTOR_WEIGHT
-from storage.qdrant_setup import setup_qdrant
-from storage.retrieval import ResumeRetriever
+from services.storage.config import KEYWORD_WEIGHT, VECTOR_WEIGHT
+from services.storage.qdrant_setup import setup_qdrant
+from services.storage.retrieval import ResumeRetriever
 
 
 class StorageTests(unittest.TestCase):
     """Core storage and retrieval tests."""
 
-    @patch("storage.qdrant_setup.QdrantClient")
-    @patch("storage.qdrant_setup.TextEmbedding")
-    @patch("storage.qdrant_setup.UnexpectedResponse", new=Exception)
+    @patch("services.storage.qdrant_setup.QdrantClient")
+    @patch("services.storage.qdrant_setup.TextEmbedding")
+    @patch("services.storage.qdrant_setup.UnexpectedResponse", new=Exception)
     def test_setup_qdrant_creates_collection(
         self,
         mock_embedding_class,
@@ -37,8 +37,8 @@ class StorageTests(unittest.TestCase):
 
         mock_client.create_collection.assert_called_once()
 
-    @patch("storage.retrieval.QdrantClient")
-    @patch("storage.retrieval.TextEmbedding")
+    @patch("services.storage.retrieval.QdrantClient")
+    @patch("services.storage.retrieval.TextEmbedding")
     def test_search_returns_ranked_results(
         self,
         mock_embedding_class,
@@ -98,8 +98,8 @@ class StorageTests(unittest.TestCase):
             results[1]["score"],
         )
 
-    @patch("storage.retrieval.QdrantClient")
-    @patch("storage.retrieval.TextEmbedding")
+    @patch("services.storage.retrieval.QdrantClient")
+    @patch("services.storage.retrieval.TextEmbedding")
     def test_ingest_candidate_stores_payload(
         self,
         mock_embedding_class,
@@ -135,8 +135,8 @@ class StorageTests(unittest.TestCase):
         self.assertEqual(payload["candidate_id"], 99)
         self.assertEqual(payload["name"], "Sarah")
 
-    @patch("storage.retrieval.QdrantClient")
-    @patch("storage.retrieval.TextEmbedding")
+    @patch("services.storage.retrieval.QdrantClient")
+    @patch("services.storage.retrieval.TextEmbedding")
     def test_get_resume_returns_payload(
         self,
         mock_embedding_class,
@@ -176,8 +176,8 @@ class StorageTests(unittest.TestCase):
         self.assertEqual(resume["candidate_id"], 7)
         self.assertEqual(resume["name"], "John")
 
-    @patch("storage.retrieval.QdrantClient")
-    @patch("storage.retrieval.TextEmbedding")
+    @patch("services.storage.retrieval.QdrantClient")
+    @patch("services.storage.retrieval.TextEmbedding")
     def test_ingest_missing_resume_text(
         self,
         mock_embedding_class,
@@ -202,8 +202,8 @@ class StorageTests(unittest.TestCase):
                 }
             )
 
-    @patch("storage.retrieval.QdrantClient")
-    @patch("storage.retrieval.TextEmbedding")
+    @patch("services.storage.retrieval.QdrantClient")
+    @patch("services.storage.retrieval.TextEmbedding")
     def test_ingest_missing_candidate_id(
         self,
         mock_embedding_class,
@@ -232,8 +232,8 @@ class StorageTests(unittest.TestCase):
                 }
             )
 
-    @patch("storage.retrieval.QdrantClient")
-    @patch("storage.retrieval.TextEmbedding")
+    @patch("services.storage.retrieval.QdrantClient")
+    @patch("services.storage.retrieval.TextEmbedding")
     def test_ingest_without_optional_fields(
         self,
         mock_embedding_class,
@@ -269,8 +269,8 @@ class StorageTests(unittest.TestCase):
 class HybridSearchTests(unittest.TestCase):
     """Tests for Hybrid Search functionality."""
 
-    @patch("storage.retrieval.QdrantClient")
-    @patch("storage.retrieval.TextEmbedding")
+    @patch("services.storage.retrieval.QdrantClient")
+    @patch("services.storage.retrieval.TextEmbedding")
     def test_extract_keywords(
         self,
         mock_embedding_class,
@@ -290,8 +290,8 @@ class HybridSearchTests(unittest.TestCase):
         self.assertNotIn("with", keywords)
         self.assertNotIn("and", keywords)
 
-    @patch("storage.retrieval.QdrantClient")
-    @patch("storage.retrieval.TextEmbedding")
+    @patch("services.storage.retrieval.QdrantClient")
+    @patch("services.storage.retrieval.TextEmbedding")
     def test_vector_search(
         self,
         mock_embedding_class,
@@ -330,8 +330,8 @@ class HybridSearchTests(unittest.TestCase):
         self.assertEqual(results[0]["candidate_id"], 1)
         self.assertEqual(results[0]["vector_score"], 0.91)
 
-    @patch("storage.retrieval.QdrantClient")
-    @patch("storage.retrieval.TextEmbedding")
+    @patch("services.storage.retrieval.QdrantClient")
+    @patch("services.storage.retrieval.TextEmbedding")
     def test_keyword_search(
         self,
         mock_embedding_class,
@@ -506,8 +506,8 @@ class HybridSearchTests(unittest.TestCase):
 
     @patch.object(ResumeRetriever, "vector_search")
     @patch.object(ResumeRetriever, "keyword_search")
-    @patch("storage.retrieval.QdrantClient")
-    @patch("storage.retrieval.TextEmbedding")
+    @patch("services.storage.retrieval.QdrantClient")
+    @patch("services.storage.retrieval.TextEmbedding")
     def test_search_hybrid(
         self,
         mock_embedding_class,
@@ -552,8 +552,8 @@ class HybridSearchTests(unittest.TestCase):
 class EdgeCaseTests(unittest.TestCase):
     """Edge-case and regression tests."""
 
-    @patch("storage.retrieval.QdrantClient")
-    @patch("storage.retrieval.TextEmbedding")
+    @patch("services.storage.retrieval.QdrantClient")
+    @patch("services.storage.retrieval.TextEmbedding")
     def test_empty_query_returns_empty_keyword_results(
         self,
         mock_embedding_class,
@@ -565,8 +565,8 @@ class EdgeCaseTests(unittest.TestCase):
 
         self.assertEqual(results, [])
 
-    @patch("storage.retrieval.QdrantClient")
-    @patch("storage.retrieval.TextEmbedding")
+    @patch("services.storage.retrieval.QdrantClient")
+    @patch("services.storage.retrieval.TextEmbedding")
     def test_empty_database(
         self,
         mock_embedding_class,
@@ -591,8 +591,8 @@ class EdgeCaseTests(unittest.TestCase):
 
         self.assertEqual(results, [])
 
-    @patch("storage.retrieval.QdrantClient")
-    @patch("storage.retrieval.TextEmbedding")
+    @patch("services.storage.retrieval.QdrantClient")
+    @patch("services.storage.retrieval.TextEmbedding")
     def test_duplicate_candidate_ingestion(
         self,
         mock_embedding_class,
@@ -622,8 +622,8 @@ class EdgeCaseTests(unittest.TestCase):
 
         self.assertEqual(mock_client.upsert.call_count, 2)
 
-    @patch("storage.retrieval.QdrantClient")
-    @patch("storage.retrieval.TextEmbedding")
+    @patch("services.storage.retrieval.QdrantClient")
+    @patch("services.storage.retrieval.TextEmbedding")
     def test_large_resume_ingestion(
         self,
         mock_embedding_class,
@@ -652,8 +652,8 @@ class EdgeCaseTests(unittest.TestCase):
 
         self.assertEqual(payload["candidate_id"], 100)
 
-    @patch("storage.retrieval.QdrantClient")
-    @patch("storage.retrieval.TextEmbedding")
+    @patch("services.storage.retrieval.QdrantClient")
+    @patch("services.storage.retrieval.TextEmbedding")
     def test_missing_skills_field(
         self,
         mock_embedding_class,
@@ -679,8 +679,8 @@ class EdgeCaseTests(unittest.TestCase):
 
         self.assertEqual(payload["skills"], [])
 
-    @patch("storage.retrieval.QdrantClient")
-    @patch("storage.retrieval.TextEmbedding")
+    @patch("services.storage.retrieval.QdrantClient")
+    @patch("services.storage.retrieval.TextEmbedding")
     def test_missing_experience_field(
         self,
         mock_embedding_class,
@@ -706,8 +706,8 @@ class EdgeCaseTests(unittest.TestCase):
 
         self.assertIsNone(payload["experience"])
 
-    @patch("storage.retrieval.QdrantClient")
-    @patch("storage.retrieval.TextEmbedding")
+    @patch("services.storage.retrieval.QdrantClient")
+    @patch("services.storage.retrieval.TextEmbedding")
     def test_search_type_keyword(
         self,
         mock_embedding_class,
@@ -728,8 +728,8 @@ class EdgeCaseTests(unittest.TestCase):
 
             self.assertEqual(results, [])
 
-    @patch("storage.retrieval.QdrantClient")
-    @patch("storage.retrieval.TextEmbedding")
+    @patch("services.storage.retrieval.QdrantClient")
+    @patch("services.storage.retrieval.TextEmbedding")
     def test_search_type_hybrid(
         self,
         mock_embedding_class,

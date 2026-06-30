@@ -18,11 +18,11 @@ with patch.dict(sys.modules, {
     'FlagEmbedding': MagicMock(LayerWiseFlagLLMReranker=mock_reranker_class)
 }):
     # Force _HAS_DEPS to True for the sake of importing neural path code
-    import ranking.layerwise_engine
-    ranking.layerwise_engine._HAS_DEPS = True
+    import services.ranking.layerwise_engine
+    services.ranking.layerwise_engine._HAS_DEPS = True
     
-    from ranking.layerwise_engine import LayerwiseCandidateReranker
-    from ranking.schemas import CandidateInput, CandidateRanked
+    from services.ranking.layerwise_engine import LayerwiseCandidateReranker
+    from services.ranking.schemas import CandidateInput, CandidateRanked
 
 def test_candidate_schemas_valid_parsing():
     """

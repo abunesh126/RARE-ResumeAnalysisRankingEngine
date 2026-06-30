@@ -17,7 +17,7 @@ from qdrant_client.models import (
     PayloadSchemaType,
 )
 
-from storage.config import (
+from services.storage.config import (
     EMBEDDING_MODEL_NAME,
     QDRANT_COLLECTION_NAME,
     QDRANT_HOST,

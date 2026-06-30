@@ -1,15 +1,30 @@
-# Core Data Validation and Parsing
+# Core dependencies (shared across services)
 pydantic>=2.0.0
+numpy>=1.26.0
+orjson>=3.10.0
+pyyaml>=6.0
+tqdm>=4.66.0
 
 # Testing Framework
-pytest>=7.0.0
+pytest>=8.0.0
+ruff>=0.5.0
 
 # Storage & Retrieval (Qdrant + FastEmbed + Flask)
 flask>=3.0.0
 qdrant-client>=1.18.0
-fastembed>=0.8.0
+fastembed>=0.4.0
 python-dotenv>=1.0.0
 
 # Reranker AI Pipeline (Optional if running in simulation/mock mode)
 torch>=2.0.0
 FlagEmbedding>=1.2.0
+
+# Optional GPU support
+# onnxruntime-gpu>=1.17.0
+
+# Optional PDF support
+# pymupdf>=1.24.0
+
+# Optional Image OCR support (requires Tesseract binary)
+# pytesseract>=0.3.10
+# Pillow>=10.0.0

@@ -280,9 +280,15 @@ ipython_config.py
 # Resume Analysis Specific
 *.pdf
 !sample_resumes/
-!data/sample/resumes/
+!services/resume_embedding/data/sample/resumes/
 
 # Exclude large files
 *.zip
 *.tar.gz
 *.rar
+
+# ==========================================
+# FRONTEND (Vite/React)
+# ==========================================
+frontend/node_modules/
+frontend/dist/

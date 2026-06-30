@@ -2,15 +2,16 @@
 
 import sys
 import os
+
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from collections import Counter
 from flask import Flask, jsonify, request
 
-from ranking import LayerwiseCandidateReranker
-from ranking.schemas import DashboardResponse, DashboardRequest, ScoreDistribution, SkillDistribution, ExperienceDistribution
-from storage.qdrant_setup import setup_qdrant
-from storage.retrieval import ResumeRetriever
+from services.ranking import LayerwiseCandidateReranker
+from services.ranking.schemas import DashboardResponse, DashboardRequest, ScoreDistribution, SkillDistribution, ExperienceDistribution
+from services.storage.qdrant_setup import setup_qdrant
+from services.storage.retrieval import ResumeRetriever
 
 
 app = Flask(__name__)

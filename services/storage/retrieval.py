@@ -3,7 +3,7 @@
 import re
 from typing import Optional
 
-from storage.config import (
+from services.storage.config import (
     EMBEDDING_MODEL_NAME,
     KEYWORD_WEIGHT,
     OVERFETCH_FACTOR,
@@ -27,7 +27,7 @@ class MockResumeRetriever:
     """Mock retriever for testing without Qdrant running."""
 
     def __init__(self):
-        from storage.sample_resumes import SAMPLE_RESUMES
+        from services.storage.sample_resumes import SAMPLE_RESUMES
 
         self._candidates = SAMPLE_RESUMES
 

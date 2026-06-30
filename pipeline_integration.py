@@ -1,8 +1,8 @@
 """End-to-end pipeline: Resume → Vector → Qdrant → Similarity Search → BAAI Rerank."""
 
 import time
-from ranking import LayerwiseCandidateReranker
-from storage.retrieval import ResumeRetriever
+from services.ranking import LayerwiseCandidateReranker
+from services.storage.retrieval import ResumeRetriever
 
 
 def transform_qdrant_results(results: list[dict]) -> list[dict]:
