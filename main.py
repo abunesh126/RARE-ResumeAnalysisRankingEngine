@@ -28,9 +28,7 @@ from services.ranking.schemas import (
     ScoreDistribution,
     ExperienceDistribution,
 )
-from services.storage.retrieval import ResumeRetriever, MockResumeRetriever
-from services.storage.qdrant_setup import setup_qdrant
-from services.resume_embedding.resume_embedding.app.pipeline import run_pipeline
+
 
 app = Flask(__name__)
 
@@ -69,6 +67,8 @@ _AUTO_INGESTING = False
 
 
 def auto_ingest_existing_resumes(storage):
+    from services.storage.retrieval import MockResumeRetriever
+    from services.resume_embedding.resume_embedding.app.pipeline import run_pipeline
     try:
         for filepath in UPLOAD_FOLDER.iterdir():
             if filepath.is_file() and allowed_file(filepath.name):
@@ -155,6 +155,7 @@ def auto_ingest_existing_resumes(storage):
 
 def get_retriever():
     global _AUTO_INGESTING
+    from services.storage.retrieval import ResumeRetriever, MockResumeRetriever
     if _qdrant_available():
         storage = ResumeRetriever()
     else:
@@ -261,6 +262,7 @@ def run_ingestion_pipeline(input_path: Path):
     Feed resumes to run_pipeline → get embeddings → store in Qdrant.
     Returns list of candidate IDs that were stored.
     """
+    from services.resume_embedding.resume_embedding.app.pipeline import run_pipeline
     # Run the dispatcher on the input path to extract the actual texts
     from services.resume_embedding.resume_embedding.app.input import dispatch
     extracted_texts = {}
@@ -337,6 +339,7 @@ def run_ranking_pipeline(job_description: str, top_k: int = 10, cutoff_layer: in
     Run ranking pipeline: hybrid search → LLM rerank → score aggregation.
     Returns ranked candidates with ai_match_score.
     """
+    from services.storage.retrieval import MockResumeRetriever
     storage = get_retriever()
     ranker = get_reranker()
 
@@ -453,6 +456,7 @@ def rank_candidates():
 @app.route("/api/candidates", methods=["GET"])
 def list_candidates():
     """List all candidates."""
+    from services.storage.retrieval import MockResumeRetriever
     try:
         storage = get_retriever()
         if isinstance(storage, MockResumeRetriever):
@@ -519,6 +523,7 @@ def export_candidates_csv():
 @app.route("/api/setup", methods=["POST"])
 def setup_storage():
     """Initialize Qdrant collection and indexes."""
+    from services.storage.qdrant_setup import setup_qdrant
     try:
         setup_qdrant()
         return jsonify({"message": "Storage setup complete"}), 200

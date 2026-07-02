@@ -13,13 +13,29 @@ from services.storage.config import (
     VECTOR_WEIGHT,
 )
 
-try:
-    from fastembed import TextEmbedding
-    from qdrant_client import QdrantClient
-    from qdrant_client.models import FieldCondition, Filter, MatchText, MatchValue, PointStruct
+import sys
+import importlib.util
 
-    _HAS_DEPS = True
-except ImportError:
+# Module-level variables for lazy loading and test patching
+QdrantClient = None
+TextEmbedding = None
+
+def _load_storage_deps():
+    global QdrantClient, TextEmbedding
+    if QdrantClient is None or TextEmbedding is None:
+        from qdrant_client import QdrantClient as qc
+        from fastembed import TextEmbedding as te
+        if QdrantClient is None:
+            QdrantClient = qc
+        if TextEmbedding is None:
+            TextEmbedding = te
+
+try:
+    _HAS_DEPS = (
+        ("fastembed" in sys.modules or importlib.util.find_spec("fastembed") is not None) and
+        ("qdrant_client" in sys.modules or importlib.util.find_spec("qdrant_client") is not None)
+    )
+except Exception:
     _HAS_DEPS = False
 
 
@@ -148,6 +164,7 @@ class ResumeRetriever:
         host=QDRANT_HOST,
         port=QDRANT_PORT,
     ):
+        _load_storage_deps()
         self.client = QdrantClient(host=host, port=port)
         self.model = TextEmbedding(model_name=EMBEDDING_MODEL_NAME)
         self.collection_name = collection_name
@@ -305,6 +322,8 @@ class ResumeRetriever:
             "skills": candidate.get("skills", []),
             "experience": candidate.get("experience"),
         }
+
+        from qdrant_client.models import PointStruct
 
         self.client.upsert(
             collection_name=self.collection_name,
@@ -471,6 +490,8 @@ class ResumeRetriever:
 
     def keyword_search(self, query: str, top_k: int) -> list:
         """Keyword search over resume text and metadata using Qdrant filter."""
+        from qdrant_client.models import FieldCondition, Filter, MatchText, MatchValue
+
         keywords = self.extract_keywords(query)
         if not keywords:
             return []

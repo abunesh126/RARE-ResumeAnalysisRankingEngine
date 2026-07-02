@@ -3,12 +3,28 @@ import sys
 from typing import List, Dict, Any, Union
 from .schemas import CandidateInput, CandidateRanked
 
-# Lazy import flag to support clean testing and development environments
+import sys
+import importlib.util
+
+# Module-level variables for lazy loading
+torch = None
+LayerWiseFlagLLMReranker = None
+
+# If dependencies are already in sys.modules (e.g. mocked in tests) at import time, bind them immediately
+if "torch" in sys.modules:
+    torch = sys.modules["torch"]
+if "FlagEmbedding" in sys.modules:
+    try:
+        from FlagEmbedding import LayerWiseFlagLLMReranker
+    except ImportError:
+        pass
+
 try:
-    import torch
-    from FlagEmbedding import LayerWiseFlagLLMReranker
-    _HAS_DEPS = True
-except ImportError:
+    _HAS_DEPS = (
+        ("torch" in sys.modules or importlib.util.find_spec("torch") is not None) and
+        ("FlagEmbedding" in sys.modules or importlib.util.find_spec("FlagEmbedding") is not None)
+    )
+except Exception:
     _HAS_DEPS = False
 
 class LayerwiseCandidateReranker:
@@ -41,6 +57,20 @@ class LayerwiseCandidateReranker:
             self.reranker = None
             print("[INFO] Initializing Reranker in SIMULATION MODE (no heavy model loaded).")
             return
+
+        global torch, LayerWiseFlagLLMReranker
+        if torch is None or LayerWiseFlagLLMReranker is None:
+            try:
+                import torch as t
+                from FlagEmbedding import LayerWiseFlagLLMReranker as l_reranker
+                torch = t
+                LayerWiseFlagLLMReranker = l_reranker
+            except ImportError:
+                self.device = "cpu"
+                self.simulation_mode = True
+                self.reranker = None
+                print("[WARNING] Failed to import torch or FlagEmbedding. Falling back to SIMULATION MODE.")
+                return
 
         # Automatically detect NVIDIA GPU to utilize GPU acceleration
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
